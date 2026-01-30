@@ -1,0 +1,6 @@
+[submodule "Models/point-e"]
+	path = Models/point-e
+	url = https://github.com/openai/point-e.git
+[submodule "Models/stable-dreamfusion"]
+	path = Models/stable-dreamfusion
+	url = https://github.com/ashawkey/stable-dreamfusion.git
