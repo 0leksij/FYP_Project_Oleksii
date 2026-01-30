@@ -25,3 +25,8 @@ renders/
 .DS_Store
 Thumbs.db
 
+
+# CUDA installers
+*.deb
+cuda-repo-*
+
