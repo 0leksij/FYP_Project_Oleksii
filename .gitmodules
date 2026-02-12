@@ -7,7 +7,7 @@
 
 [submodule "Models/shap-e"]
 	path = Models/shap-e
-	url = https://github.com/facebookresearch/shap-e.git
+	url = https://github.com/openai/shap-e.git
 [submodule "Models/CLIP"]
 	path = Models/CLIP
 	url = https://github.com/openai/CLIP.git
