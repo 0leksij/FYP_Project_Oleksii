@@ -1,22 +1,22 @@
 # Benchmarking Text-to-3D AI Models for Real-World Applications
 
-**Final Year Project — Oleksii Shvets, UCD School of Computer Science**  
+**Final Year Project - Oleksii Shvets, UCD School of Computer Science**  
 Supervisor: Professor Anh Vu Vo
 
 ---
 
 ## What this project does
 
-Modern AI systems can generate 3D objects from a text description — you type "a wooden chair" and the model produces a 3D mesh. This project asks: **how good are those meshes actually?**
+Modern AI systems can generate 3D objects from a text description - you type "a wooden chair" and the model produces a 3D mesh. This project asks: **how good are those meshes actually?**
 
-Not just "do they look okay in a render" — but are they usable in the real world? Can you 3D-print them? Import them into CAD tools? Use them in a game engine? Run physics simulations on them?
+Not just "do they look okay in a render" - but are they usable in the real world? Can you 3D-print them? Import them into CAD tools? Use them in a game engine? Run physics simulations on them?
 
 This repository contains a complete, reproducible benchmark pipeline that evaluates text-to-3D models across four dimensions:
 
-- **Geometric complexity** — how detailed is the mesh?
-- **Topological integrity** — is the mesh structurally sound (no holes, no floating fragments)?
-- **Semantic alignment** — does it actually look like what you asked for?
-- **Human preference** — would a person find it visually acceptable?
+- **Geometric complexity** - how detailed is the mesh?
+- **Topological integrity** - is the mesh structurally sound (no holes, no floating fragments)?
+- **Semantic alignment** - does it actually look like what you asked for?
+- **Human preference** - would a person find it visually acceptable?
 
 Models evaluated: **Point-E**, **Shap-E**, **Stable-DreamFusion**, and additional community models, compared against a hand-crafted reference mesh.
 
@@ -77,12 +77,12 @@ Run one or more generation scripts. Each script saves a `.ply` file into the cor
 python Scripts/generate_point_e.py --prompt "a simple wooden chair"
 ```
 
-**Shap-E** (~1–2 minutes on GPU):
+**Shap-E** (~1-2 minutes on GPU):
 ```bash
 python Scripts/generate_shap_e.py --prompt "a simple wooden chair"
 ```
 
-**Stable-DreamFusion** (slow, ~20–40 minutes on GPU):
+**Stable-DreamFusion** (slow, ~20-40 minutes on GPU):
 ```bash
 bash Scripts/generate_dreamfusion.sh "a simple wooden chair"
 ```
@@ -122,7 +122,7 @@ The notebook reads `results/*.csv` and produces bar charts, error-bar plots, and
    ```
    Assets/my_model/a_simple_wooden_chair.ply
    ```
-3. Re-run `evaluate_all.py` with the same prompt — it will pick up the new model automatically.
+3. Re-run `evaluate_all.py` with the same prompt - it will pick up the new model automatically.
 
 ---
 
@@ -134,7 +134,7 @@ The benchmark reports three categories of metrics. Here is what each one means i
 
 | Metric | What it measures | What a good value looks like |
 |---|---|---|
-| `num_vertices` / `num_faces` | How many polygons the mesh has | Depends on use case; 10k–100k is typical for AI models |
+| `num_vertices` / `num_faces` | How many polygons the mesh has | Depends on use case; 10k-100k is typical for AI models |
 | `surface_area` | Total surface area in model-space units | Comparable values across models for the same object |
 | `volume` | Interior volume (only valid for closed meshes) | Non-zero if the mesh is watertight |
 | `bbox_x/y/z` | Bounding box dimensions | Proportions should match the real object (e.g. a chair is taller than it is wide) |
@@ -143,16 +143,16 @@ The benchmark reports three categories of metrics. Here is what each one means i
 
 ---
 
-### Topology metrics — the most important for real-world use
+### Topology metrics - the most important for real-world use
 
 These tell you whether the mesh is actually usable, not just whether it looks good.
 
 | Metric | What it measures | What a good value looks like |
 |---|---|---|
-| `is_watertight` | Does the mesh form a completely closed surface with no holes? | `True` — required for 3D printing, FEM simulation, CAD Boolean operations |
-| `num_components` | How many disconnected pieces the mesh has | `1` — a single connected body. Values above 1 mean the object is fragmented |
-| `num_nonmanifold_edges` | Edges shared by more than two faces (illegal geometry) | `0` — any non-zero value will break UV unwrapping, Boolean operations, and remeshing |
-| `normal_consistency` | What fraction of adjacent face pairs have normals pointing the same way | Close to `1.0` — values below 0.9 cause dark patches and rendering artefacts |
+| `is_watertight` | Does the mesh form a completely closed surface with no holes? | `True` - required for 3D printing, FEM simulation, CAD Boolean operations |
+| `num_components` | How many disconnected pieces the mesh has | `1` - a single connected body. Values above 1 mean the object is fragmented |
+| `num_nonmanifold_edges` | Edges shared by more than two faces (illegal geometry) | `0` - any non-zero value will break UV unwrapping, Boolean operations, and remeshing |
+| `normal_consistency` | What fraction of adjacent face pairs have normals pointing the same way | Close to `1.0` - values below 0.9 cause dark patches and rendering artefacts |
 
 **What these failures mean in practice:**
 
@@ -165,13 +165,13 @@ These tell you whether the mesh is actually usable, not just whether it looks go
 
 ### Mesh regularity metrics
 
-These measure the *quality* of the tessellation — how evenly the surface is subdivided — independently of whether the shape is correct.
+These measure the *quality* of the tessellation - how evenly the surface is subdivided - independently of whether the shape is correct.
 
 | Metric | What it measures | What a good value looks like |
 |---|---|---|
-| `face_aspect_ratio_mean` | Average ratio of longest to shortest edge per triangle. 1.0 = perfect equilateral triangle | 1.5–3.0 is typical; above 10 causes FEM solver errors |
+| `face_aspect_ratio_mean` | Average ratio of longest to shortest edge per triangle. 1.0 = perfect equilateral triangle | 1.5-3.0 is typical; above 10 causes FEM solver errors |
 | `face_aspect_ratio_max` | Worst single triangle in the mesh | Below 10; very high values indicate at least one degenerate "needle" triangle |
-| `face_area_cv` | How uneven the face sizes are (standard deviation / mean) | Low values = uniform mesh. AI meshes often score 100–10000+ (highly non-uniform) |
+| `face_area_cv` | How uneven the face sizes are (standard deviation / mean) | Low values = uniform mesh. AI meshes often score 100-10000+ (highly non-uniform) |
 | `edge_length_cv` | Same idea applied to edge lengths | Low = uniform; high = some edges are micro-sized, others are huge |
 
 **Why this matters:** Simulation tools (FEM, fluid dynamics, physics engines) require roughly uniform face sizes to produce numerically accurate results. A mesh with CV of 1000+ cannot be used directly in simulation without re-meshing.
@@ -184,13 +184,13 @@ These measure whether the object visually matches the text prompt.
 
 | Metric | What it measures | What a good value looks like |
 |---|---|---|
-| `clip_score_mean` | Cosine similarity between renders and the text prompt, using the CLIP ViT-B/32 model | Typically 0.2–0.35 for 3D renders; higher = better match |
+| `clip_score_mean` | Cosine similarity between renders and the text prompt, using the CLIP ViT-B/32 model | Typically 0.2-0.35 for 3D renders; higher = better match |
 | `clip_score_std` | Variation in CLIP score across views | Low = consistent from all angles; high = object looks different from different sides |
 | `multiview_consistency` | Mean pairwise CLIP similarity between all rendered views | Above 0.9 for a coherent object; low values suggest a "Janus problem" (multiple fronts) |
 | `image_reward_mean` | Human preference score from the ImageReward model (trained on 137k human comparisons) | Negative values are normal for 3D renders; higher (less negative) = more visually acceptable |
 | `image_reward_std` | Variation in preference score across views | Low = consistently good/bad from all angles |
 
-**Interpreting CLIP scores:** All models for the same object class tend to cluster within a narrow 0.01–0.02 range. CLIP cannot reliably distinguish a clean mesh from a noisy one — it only checks rough semantic category. Use ImageReward to distinguish quality within the same category.
+**Interpreting CLIP scores:** All models for the same object class tend to cluster within a narrow 0.01-0.02 range. CLIP cannot reliably distinguish a clean mesh from a noisy one - it only checks rough semantic category. Use ImageReward to distinguish quality within the same category.
 
 **Interpreting ImageReward:** Scores are calibrated against photorealistic 2D images, so 3D renders always score lower than real photos. A score of -0.3 is excellent for a generated 3D mesh; -2.0 is poor. The relative ranking between models is reliable even though the absolute values are negative.
 
@@ -202,7 +202,7 @@ These measure whether the object visually matches the text prompt.
 
 | Metric | What it measures |
 |---|---|
-| `chamfer_distance` | Average distance between points on the generated mesh and points on a reference mesh — lower is better |
+| `chamfer_distance` | Average distance between points on the generated mesh and points on a reference mesh - lower is better |
 
 This metric only runs when a reference mesh exists. It measures geometric similarity to a known-correct shape, independently of polygon count or topology.
 
@@ -242,7 +242,7 @@ conda activate t2d-benchmark
 python -c "import clip; clip.load('ViT-B/32')"
 ```
 
-**Stable-DreamFusion** uses Stable Diffusion weights via `diffusers` — downloaded automatically on first training run. Requires a Hugging Face account and `huggingface-cli login`.
+**Stable-DreamFusion** uses Stable Diffusion weights via `diffusers` - downloaded automatically on first training run. Requires a Hugging Face account and `huggingface-cli login`.
 
 All weights are cached locally and reused on subsequent runs.
 
@@ -256,7 +256,3 @@ All weights are cached locally and reused on subsequent runs.
 - For headless rendering on a server: `PYOPENGL_PLATFORM=egl` and EGL libraries installed (`apt install libegl1`)
 
 ---
-
-## License
-
-Model weights and submodule code are subject to their respective upstream licences (Point-E: MIT, Shap-E: MIT, Stable-DreamFusion: MIT, CLIP: MIT). Benchmark code in this repository is released under the MIT License.
