@@ -34,3 +34,4 @@ shap_e_model_cache/
 Scripts/point_e_model_cache/
 *.pt
 *.pth
+bfg*.jar
