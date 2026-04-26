@@ -1,22 +1,40 @@
 #!/bin/bash
-#remember to chmod +x generate_dreamfusion.sh
+# Generate a 3D mesh using stable-dreamfusion.
+#
+# Usage:
+#   bash generate_dreamfusion.sh
+#   bash generate_dreamfusion.sh "a red fire hydrant" "../Assets/dreamfusion/fire_hydrant.ply"
+set -e
 
-PROMPT="a small concrete bus stop shelter"
-OUTPUT_DIR="../Assets/dreamfusion"
+PROMPT="${1:-a simple wooden chair}"
 
-mkdir -p $OUTPUT_DIR
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+MODEL_DIR="$REPO_ROOT/Models/stable-dreamfusion"
 
-cd ../Models/stable-dreamfusion
+# Derive a slug for workspace and output path
+SLUG="${PROMPT// /_}"
+SLUG="${SLUG:0:40}"
 
-python main.py \
-  --text "$PROMPT" \
-  --workspace ../../Assets/dreamfusion/workspace \
-  --iters 2000 \
-  --resolution 64 \
-  --cuda_ray
+OUTPUT_PLY="${2:-$REPO_ROOT/Assets/dreamfusion/${SLUG}.ply}"
+WORKSPACE="$(dirname "$OUTPUT_PLY")/workspace_${SLUG}"
 
-python scripts/extract_mesh.py \
-  --ckpt ../../Assets/dreamfusion/workspace/checkpoints/latest.pth \
-  --mesh_path ../../Assets/dreamfusion/output.ply
+mkdir -p "$(dirname "$OUTPUT_PLY")"
 
-echo "DreamFusion mesh saved to ../../Assets/dreamfusion/output.ply"
+echo "Prompt:  $PROMPT"
+echo "Output:  $OUTPUT_PLY"
+echo "Running DreamFusion training..."
+
+python "$MODEL_DIR/main.py" \
+    --text "$PROMPT" \
+    --workspace "$WORKSPACE" \
+    --iters 2000 \
+    --resolution 64 \
+    --cuda_ray
+
+echo "Extracting mesh..."
+python "$MODEL_DIR/scripts/extract_mesh.py" \
+    --ckpt "$WORKSPACE/checkpoints/latest.pth" \
+    --mesh_path "$OUTPUT_PLY"
+
+echo "Saved: $OUTPUT_PLY"

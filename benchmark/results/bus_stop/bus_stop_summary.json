@@ -1,0 +1,121 @@
+{
+  "num_vertices": {
+    "mean": 21112.5,
+    "std": 5905.048729688859,
+    "min": 16937.0,
+    "max": 25288.0,
+    "median": 21112.5
+  },
+  "num_faces": {
+    "mean": 42205.0,
+    "std": 11855.352293373655,
+    "min": 33822.0,
+    "max": 50588.0,
+    "median": 42205.0
+  },
+  "surface_area": {
+    "mean": 3.0810515044365374,
+    "std": 3.3036396732730986,
+    "min": 0.7450254888682192,
+    "max": 5.417077520004856,
+    "median": 3.0810515044365374
+  },
+  "volume": {
+    "mean": 0.04130190174679323,
+    "std": 0.04610109772659211,
+    "min": 0.00870350292417622,
+    "max": 0.07390030056941024,
+    "median": 0.04130190174679323
+  },
+  "is_watertight": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "num_components": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "num_nonmanifold_edges": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "normal_consistency": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "bbox_x": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "bbox_y": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "bbox_z": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "bbox_volume": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "load_success": {
+    "mean": 1.0,
+    "std": 0.0,
+    "min": 1.0,
+    "max": 1.0,
+    "median": 1.0
+  },
+  "clip_score_mean": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "clip_score_std": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "clip_score_min": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  },
+  "clip_score_max": {
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "median": 0.0
+  }
+}
