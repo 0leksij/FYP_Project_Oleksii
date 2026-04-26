@@ -30,3 +30,7 @@ Thumbs.db
 *.deb
 cuda-repo-*
 
+shap_e_model_cache/
+Scripts/point_e_model_cache/
+*.pt
+*.pth
