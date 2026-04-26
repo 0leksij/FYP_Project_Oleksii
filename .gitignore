@@ -36,3 +36,4 @@ Scripts/point_e_model_cache/
 *.pth
 bfg*.jar
 point_e_model_cache/
+bfg-report/
